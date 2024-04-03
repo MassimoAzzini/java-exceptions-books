@@ -1,6 +1,9 @@
 package org.exercise;
 
-import java.math.BigDecimal;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
@@ -22,10 +25,11 @@ public class Main {
                 System.out.println("The number is less than or equal to 0");
             }
         }
-// creo l'array della dimensione inserita dall'utente
+
+        // creo l'array della dimensione inserita dall'utente
         Book[] books = new Book[items];
 
-
+        // faccio le domande all'utente per popolare l'array
         for (int i = 0; i < items;) {
 
             try {
@@ -48,6 +52,7 @@ public class Main {
 
 
             Book book = new Book(title, pages, author, publisher);
+            books[i] = book;
             i++;
 
             } catch (Exception e) {
@@ -55,5 +60,27 @@ public class Main {
             }
 
         }
+
+        scan.close();
+
+        // scrivo all'interno del file
+        try (FileWriter fileWriter = new FileWriter("./resources/books.txt")){
+           for (Book b: books){
+               fileWriter.write(b.toString() + "\n");
+           }
+        } catch (IOException e) {
+            System.out.println("File not found");
+        }
+
+
+        // leggo il file creato
+        try (Scanner fileReader = new Scanner(new File("./resources/books.txt"))) {
+            while (fileReader.hasNextLine()) {
+                System.out.println(fileReader.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        }
+
     }
 }

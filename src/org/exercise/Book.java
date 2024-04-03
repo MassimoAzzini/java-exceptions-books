@@ -68,4 +68,9 @@ public class Book {
         };
         this.publisher = publisher;
     }
+
+    @Override
+    public String toString() {
+        return "Title: " + title + ", Author: " + author + ", Publisher: " + publisher + ", Pages: " + pages;
+    }
 }
